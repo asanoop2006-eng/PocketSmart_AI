@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login - PocketSmart AI</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', path='style.css') }}">
+
+    <style>
+        .login-page {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 25px;
+        }
+
+        .login-card {
+            max-width: 600px;
+            width: 100%;
+            padding: 45px 55px;
+            border: none;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.94);
+            box-shadow: 0 15px 45px rgba(100, 70, 140, 0.20);
+}
+
+        .brand-name {
+            color: #7652a8;
+            font-size: 30px;
+            font-weight: 700;
+        }
+
+        .brand-name span {
+            color: #b08bd4;
+        }
+
+        .login-title {
+            color: #4b3567;
+            font-weight: 700;
+        }
+
+        .login-subtitle {
+            color: #777080;
+        }
+
+        .form-label {
+            color: #51425f;
+            font-weight: 600;
+        }
+
+        .form-control {
+            border: 1px solid #d9c9eb;
+            border-radius: 12px;
+            padding: 12px;
+        }
+
+        .form-control:focus {
+            border-color: #a78bca;
+            box-shadow: 0 0 0 0.2rem rgba(167, 139, 202, 0.20);
+        }
+
+        .login-button {
+            background: linear-gradient(135deg, #9672c5, #b89bd8);
+            border: none;
+            border-radius: 12px;
+            padding: 12px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .login-button:hover {
+            background: linear-gradient(135deg, #805baa, #a585c9);
+            color: white;
+        }
+
+        .register-link {
+            color: #805baa;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .register-link:hover {
+            text-decoration: underline;
+        }
+
+        .back-link {
+            color: #7652a8;
+            text-decoration: none;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-page">
+
+        <div class="login-card">
+
+            <div class="text-center mb-4">
+
+                <div class="brand-name">
+                    PocketSmart <span>AI</span>
+                </div>
+
+                <h2 class="login-title mt-4">
+                    Welcome Back 💜
+                </h2>
+
+                <p class="login-subtitle">
+                    Login to continue your smart planning journey
+                </p>
+
+            </div>
+
+            <form method="post" action="/login">
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Email Address
+                    </label>
+
+                    <input type="email"
+                           name="email"
+                           class="form-control"
+                           placeholder="Enter your email"
+                           required>
+
+                </div>
+
+                <div class="mb-4">
+
+                    <label class="form-label">
+                        Password
+                    </label>
+
+                    <input type="password"
+                           name="password"
+                           class="form-control"
+                           placeholder="Enter your password"
+                           required>
+
+                </div>
+
+                <button type="submit"
+                        class="btn login-button w-100">
+                    Login to PocketSmart AI ✨
+                </button>
+
+            </form>
+
+            <p class="text-center mt-4 mb-2">
+
+                Don't have an account?
+
+                <a href="/register" class="register-link">
+                    Register Now
+                </a>
+
+            </p>
+
+            <div class="text-center mt-3">
+
+                <a href="/" class="back-link">
+                    ← Back to Homepage
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
