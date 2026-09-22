@@ -3,6 +3,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse
 from fastapi.responses import HTMLResponse
+from fastapi.middleware.cors import CORSMiddleware
 from services.recommendation_service import generate_home_recommendations
 from services.recommendation_service import generate_party_recommendations
 from services.recommendation_service import generate_jewelry_recommendations
@@ -12,6 +13,13 @@ app = FastAPI(
     title="PocketSmart AI",
     description="Your Smart Budget & Recommendation Assistant",
     version="1.0.0"
+)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=False,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 app.add_middleware(
     SessionMiddleware,
