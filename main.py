@@ -7,11 +7,15 @@ from services.recommendation_service import generate_home_recommendations
 from services.recommendation_service import generate_party_recommendations
 from services.recommendation_service import generate_jewelry_recommendations
 from services.gemini_service import generate_ai_recommendation
-
+from starlette.middleware.sessions import SessionMiddleware
 app = FastAPI(
     title="PocketSmart AI",
     description="Your Smart Budget & Recommendation Assistant",
     version="1.0.0"
+)
+app.add_middleware(
+    SessionMiddleware,
+    secret_key="pocketsmart-demo-secret-key"
 )
 # Temporary user storage
 users = {}
@@ -40,15 +44,27 @@ templates = Jinja2Templates(directory="templates")
 
 @app.get("/")
 async def home(request: Request):
+
+    if not request.session.get("logged_in"):
+        return RedirectResponse(url="/register", status_code=303)
+
     return templates.TemplateResponse(
         request=request,
         name="index.html",
-        context={"request": request}
+        context={
+            "request": request,
+            "user_name": request.session.get("user_name"),
+            "user_email": request.session.get("user_email")
+        }
     )
 
 
 @app.get("/home-planner")
 async def home_planner(request: Request):
+
+    if not request.session.get("logged_in"):
+        return RedirectResponse(url="/login", status_code=303)
+
     return templates.TemplateResponse(
         request=request,
         name="home_planner.html",
@@ -130,6 +146,10 @@ async def generate_home(
     )
 @app.get("/party-planner")
 async def party_planner(request: Request):
+
+    if not request.session.get("logged_in"):
+        return RedirectResponse(url="/login", status_code=303)
+
     return templates.TemplateResponse(
         request=request,
         name="party_planner.html",
@@ -208,6 +228,10 @@ async def generate_party(
 
 @app.get("/jewelry-planner")
 async def jewelry_planner(request: Request):
+
+    if not request.session.get("logged_in"):
+        return RedirectResponse(url="/login", status_code=303)
+
     return templates.TemplateResponse(
         request=request,
         name="jewelry_planner.html",
@@ -286,10 +310,16 @@ async def generate_jewelry(
     )
 @app.post("/login")
 async def login_user(
+    request: Request,
     email: str = Form(...),
     password: str = Form(...)
 ):
     if email in users and users[email]["password"] == password:
+
+        request.session["logged_in"] = True
+        request.session["user_email"] = email
+        request.session["user_name"] = users[email]["name"]
+
         return RedirectResponse(url="/", status_code=303)
 
     return {
@@ -301,6 +331,12 @@ async def register_user(
     email: str = Form(...),
     password: str = Form(...)
 ):
+
+    if email in users:
+        return {
+            "message": "Email already registered. Please login."
+        }
+
     users[email] = {
         "name": name,
         "password": password
@@ -331,6 +367,9 @@ async def recommendations_details(request: Request):
     )
 @app.get("/history", response_class=HTMLResponse)
 async def history(request: Request):
+
+    if not request.session.get("logged_in"):
+        return RedirectResponse(url="/login", status_code=303)
 
     return templates.TemplateResponse(
         request=request,

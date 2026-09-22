@@ -332,7 +332,18 @@
                             Get Started
                         </a>
                     </li>
+                        <li class="nav-item">
+                            <div class="profile-wrapper">
+                                <div class="profile-circle">
+                                    {{ user_name[0] | upper }}
+                                </div>
 
+                                <div class="profile-tooltip">
+                                    <strong>{{ user_name }}</strong>
+                                    <span>{{ user_email }}</span>
+                                </div>
+                            </div>
+                        </li>
                 </ul>
 
             </div>
@@ -424,6 +435,7 @@
                             class="btn planner-btn">
                             Start Planning →
                         </a>
+
 
                     </div>
 
